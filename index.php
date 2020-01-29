@@ -8,7 +8,7 @@
 
 <div class="form-style-10">
     <h1>Client Registration</h1>
-    <form>
+    <form action="proccess.php" method="POST">
         <div class="section">First Name & Last Name</div>
         <div class="inner-wrap">
             <label>First Name <input type="text" name="name" /></label>
@@ -32,5 +32,3 @@
 
 </body>
 </html>
-
-<?php
