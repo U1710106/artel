@@ -1,11 +1,7 @@
 <?php
 include("connection.php");
-$data = $mysqli->query("Select * From clients;");
-function pre_r($result) {
-    echo '<pre>';
-    print_r($result);
-    echo '</pre>';
-}
+$search = trim($_POST["search"]);
+$find = $mysqli->query("Select * from clients where c_phone like '%$search%'");
 ?>
 
 <!DOCTYPE html>
@@ -18,10 +14,7 @@ function pre_r($result) {
 <body>
 <div class="view">
     <h1>List of Registered Clients</h1>
-    <form class="example" action="search.php" method="POST">
-        <input type="text" placeholder="Search.." name="search">
-        <button type="submit"><i class="fa fa-search"></i></button>
-    </form>
+    <h2>Search Results</h2>
     <table>
         <thead>
         <tr>
@@ -33,16 +26,17 @@ function pre_r($result) {
         </thead>
         <tbody>
         <?php
-        while ($row = $data->fetch_assoc()): ?>
-        <tr>
-            <td><?php echo $row['c_name']; ?></td>
-            <td><?php echo $row['c_surname']; ?></td>
-            <td><?php echo $row['c_birthday']; ?></td>
-            <td><?php echo $row['c_phone']; ?></td>
-        </tr>
+        while ($row = $find->fetch_assoc()): ?>
+            <tr>
+                <td><?php echo $row['c_name']; ?></td>
+                <td><?php echo $row['c_surname']; ?></td>
+                <td><?php echo $row['c_birthday']; ?></td>
+                <td><?php echo $row['c_phone']; ?></td>
+            </tr>
         <?php endwhile; ?>
         </tbody>
     </table>
 </div>
 </body>
 </html>
+
