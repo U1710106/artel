@@ -1,5 +1,7 @@
 <?php
 include("connection.php");
+
+//Data coming from form
 $data = $mysqli->query("Select * From clients;");
 function pre_r($result) {
     echo '<pre>';

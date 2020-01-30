@@ -1,3 +1,12 @@
+<?php
+include ('connection.php');
+
+$name = " ";
+$surname = " ";
+$birthday =" ";
+$phone = " ";
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,10 +17,10 @@
 
 <div class="form-style-10">
     <h1>Client Registration</h1>
-    <form action="proccess.php" method="POST">
+    <form action="index.php" method="POST">
         <div class="section">First Name & Last Name</div>
         <div class="inner-wrap">
-            <label>First Name <input type="text" name="name" /></label>
+            <label>First Name <input type="text" name="name" value="<?= $name?>" /></label>
             <label>Last Name <input type="text" name="surname" /></label>
         </div>
 
@@ -29,6 +38,18 @@
         </div>
     </form>
 </div>
+<?php
+if (isset($_POST["register"]))
+{
+    $name = $_POST["name"];
+    $surname = $_POST["surname"];
+    $birthday =$_POST["birthday"];
+    $phone = $_POST["phone"];
+//Insert into Database
+    $mysqli->query("INSERT INTO clients(c_id, c_name, c_surname, c_birthday, c_phone) VALUES (null,'$name','$surname','$birthday','$phone')");
+}
+?>
+
 
 </body>
 </html>
