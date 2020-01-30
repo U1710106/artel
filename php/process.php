@@ -1,18 +1,50 @@
 <?php
 include ('connection.php');
-function initialise() {
-    $name = " ";
-    $surname = " ";
-    $birthday =" ";
-    $phone = " ";
+// define variables and set to empty values
+$name = $surname = $birthday = $phone = "";
+$nameErr = $surnameErr = $birthdayErr = $phoneErr = "";
+function test_input($data) {
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
 }
-function write() {
-        $name = $_POST["name"];
-        $surname = $_POST["surname"];
-        $birthday =$_POST["birthday"];
-        $phone = $_POST["phone"];
 //Insert into Database
+function write() {
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        if (empty($_POST["name"])) {
+            $nameErr = "Name is required";
+        } else {
+            $name = test_input($_POST["name"]);
+            // check if name only contains letters and whitespace
+            if (!preg_match("/^[a-zA-Z ]*$/",$name)) {
+                $nameErr = "Only letters and white space allowed";
+            }
+        }
+        if (empty($_POST["surname"])) {
+            $surnameErr = "Surname is required";
+        } else {
+            $surname = test_input($_POST["surname"]);
+        }
+        if (empty($_POST["birthday"])) {
+            $birthdayErr = "";
+        } else {
+            $birthday = test_input($_POST["birthday"]);
+        }
+        if (empty($_POST["phone"])) {
+            $phoneErr = "";
+        } else {
+            $phone = test_input($_POST["phone"]);
+        }
+    }
+    if ((empty($_POST["name"]) && empty($_POST["surname"])))
+    {
+        echo "Fields must be filled!";
+    }
+    else {
         $GLOBALS['mysqli']->query("INSERT INTO clients(c_id, c_name, c_surname, c_birthday, c_phone) VALUES (null,'$name','$surname','$birthday','$phone')");
+    }
+
 }
 function search() {
     $search = trim($_POST["search"]);
@@ -43,3 +75,4 @@ while ($row = $data->fetch_assoc()): ?>
     </tr>
 <?php endwhile;
 }
+
